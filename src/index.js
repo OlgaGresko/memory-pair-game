@@ -102,7 +102,7 @@ function toggleCard(e) {
 
   if (openedClasses.size === 6) {
     setTimeout(() => {
-      alert('Вітаємо! Ви виграли!');
+      alert('Congratulations! You won!');
       location.reload();
     }, 700);
   }
