@@ -5,6 +5,10 @@ import pineapple from '../src/images/pineapple.png';
 import pumpkin from '../src/images/pumpkin.png';
 import watermelon from '../src/images/watermelon.png';
 
+const openCard = document.getElementById('open-card');
+const match = document.getElementById('match');
+const win = document.getElementById('win');
+
 const images = {
   apple: `${apple}`,
   banana: `${banana}`,
@@ -57,6 +61,7 @@ function toggleCard(e) {
   const currentInner = currentCard.querySelector('.flip-card-inner');
   currentCard.classList.add('open');
   currentInner.style.transform = 'rotateY(180deg)';
+  openCard.play();
   const classList = currentCard.classList;
   let fruitClass;
   classList.forEach(className => {
@@ -79,6 +84,12 @@ function toggleCard(e) {
       card.classList.contains('open')
     ) {
       openedClasses.add(fruitClass);
+      if (!match.paused) {
+        match.currentTime = 0;
+        match.play();
+      } else {
+        match.play();
+      }
       return;
     } else if (
       card.id !== currentCard.id &&
@@ -102,8 +113,11 @@ function toggleCard(e) {
 
   if (openedClasses.size === 6) {
     setTimeout(() => {
-      alert('Congratulations! You won!');
-      location.reload();
+      win.play();
+      setTimeout(() => {
+        alert('Congratulations! You won!');
+        location.reload();
+      }, 1000);
     }, 700);
   }
 }
