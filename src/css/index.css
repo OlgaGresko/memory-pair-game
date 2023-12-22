@@ -70,6 +70,28 @@ body {
   transform: rotateY(180deg);
 }
 
+.volume {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #cdefff;
+  fill: #0080ff;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+
+.volume:hover,
+.volume:focus {
+  fill: #005CB8;
+  transform: scale(1.2);
+}
+
 .footer {
   text-align: center;
 }
@@ -77,4 +99,8 @@ body {
 .copyright {
   margin: 45px 0 0;
   display: inline-block;
+}
+
+.name {
+  color: #005CB8;
 }

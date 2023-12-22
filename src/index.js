@@ -5,6 +5,9 @@ import pineapple from '../src/images/pineapple.png';
 import pumpkin from '../src/images/pumpkin.png';
 import watermelon from '../src/images/watermelon.png';
 
+const volume = document.getElementById('volume');
+const volumeOn = document.getElementById('volume-on');
+const volumeOff = document.getElementById('volume-off');
 const openCard = document.getElementById('open-card');
 const match = document.getElementById('match');
 const win = document.getElementById('win');
@@ -17,6 +20,20 @@ const images = {
   pumpkin: `${pumpkin}`,
   watermelon: `${watermelon}`,
 };
+
+let openedClasses = new Set();
+
+const savedVolumeEnabled = localStorage.getItem('volumeEnabled');
+let volumeEnabled = false;
+if (savedVolumeEnabled !== null) {
+  volumeEnabled = savedVolumeEnabled === 'true';
+}
+
+function play(func) {
+  if (!volumeEnabled) {
+    func.play();
+  }
+}
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -54,14 +71,12 @@ for (let i = 0; i < cards.length; i++) {
   shuffledImages.splice(randomIndex, 1);
 }
 
-let openedClasses = new Set();
-
 function toggleCard(e) {
   const currentCard = document.getElementById(e.currentTarget.id);
   const currentInner = currentCard.querySelector('.flip-card-inner');
   currentCard.classList.add('open');
   currentInner.style.transform = 'rotateY(180deg)';
-  openCard.play();
+  play(openCard);
   const classList = currentCard.classList;
   let fruitClass;
   classList.forEach(className => {
@@ -86,9 +101,9 @@ function toggleCard(e) {
       openedClasses.add(fruitClass);
       if (!match.paused) {
         match.currentTime = 0;
-        match.play();
+        play(match);
       } else {
-        match.play();
+        play(match);
       }
       return;
     } else if (
@@ -104,7 +119,7 @@ function toggleCard(e) {
       setTimeout(() => {
         currentInner.style.transform = 'rotateY(0deg)';
         innerCard.style.transform = 'rotateY(0deg)';
-      }, 700);
+      }, 600);
       return;
     } else if (card.id !== currentCard.id && !card.classList.contains('open')) {
       return;
@@ -113,7 +128,7 @@ function toggleCard(e) {
 
   if (openedClasses.size === 6) {
     setTimeout(() => {
-      win.play();
+      play(win);
       setTimeout(() => {
         alert('Congratulations! You won!');
         location.reload();
@@ -122,6 +137,33 @@ function toggleCard(e) {
   }
 }
 
+function toggleVolume() {
+  volumeEnabled = !volumeEnabled;
+
+  if (volumeEnabled) {
+    volumeOn.style.display = 'none';
+    volumeOff.style.display = 'block';
+    openCard.pause();
+    match.pause();
+    win.pause();
+    localStorage.setItem('volumeEnabled', 'true');
+  } else {
+    volumeOn.style.display = 'block';
+    volumeOff.style.display = 'none';
+    localStorage.setItem('volumeEnabled', 'false');
+  }
+}
+
 cards.forEach(card => {
   card.addEventListener('click', toggleCard);
+});
+volume.addEventListener('click', toggleVolume);
+window.addEventListener('DOMContentLoaded', () => {
+  if (volumeEnabled) {
+    volumeOn.style.display = 'none';
+    volumeOff.style.display = 'block';
+  } else {
+    volumeOn.style.display = 'block';
+    volumeOff.style.display = 'none';
+  }
 });

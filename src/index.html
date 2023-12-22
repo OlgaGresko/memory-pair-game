@@ -105,9 +105,20 @@
         <audio src="../src/audio/open-card.wav" id="open-card"></audio>
         <audio src="../src/audio/match.wav" id="match"></audio>
         <audio src="../src/audio/win.wav" id="win"></audio>
+
+        <div class="volume" id="volume">
+          <svg id="volume-on" width="24px" height="24px">
+            <use href="../src/images/sprite.svg#icon-volume-on"></use>
+          </svg>
+          <svg id="volume-off" width="24px" height="24px" style="display: none;">
+            <use href="../src/images/sprite.svg#icon-volume-off"></use>
+          </svg>
+
+        </div>
+
       </main>
       <footer class="footer">
-        <p class="copyright">Created by &#169 &nbsp;</p><a href="https://github.com/OlgaGresko" target="_blank" rel="noopener noreferrer">OlgaGresko</a>
+        <p class="copyright">Created by &#169 &nbsp;</p><a class="name" href="https://github.com/OlgaGresko" target="_blank" rel="noopener noreferrer">OlgaGresko</a>
       </footer>
     </div>
     <script type="module" src="./index.js"></script>
